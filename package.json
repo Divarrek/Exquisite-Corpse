@@ -1,0 +1,26 @@
+{
+  "name": "exquisite-corpse",
+  "version": "1.0.0",
+  "description": "A Discord bot for playing Exquisite Corpse",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	  "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThonyVezbe/Exquisite-Corpse.git"
+  },
+  "keywords": [
+    "discord"
+  ],
+  "author": "Anthony Guéchoum <a.guechoum@gmail.com> (https://github.com/ThonyVezbe)",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ThonyVezbe/Exquisite-Corpse/issues"
+  },
+  "homepage": "https://github.com/ThonyVezbe/Exquisite-Corpse#readme"
+}

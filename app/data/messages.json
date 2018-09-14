@@ -43,5 +43,10 @@
       "en": "is blank.",
       "br": "a zo goullo.",
       "fr": "est vide."
+    },
+    "STATUS" : {
+      "en": "State of the game",
+      "br": "Stad ar c'hoari",
+      "fr": "État du jeu"
     }
 }

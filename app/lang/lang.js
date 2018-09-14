@@ -1,5 +1,5 @@
 let i18n = {
-  defaultLang : "fr",
+  defaultLang : "en",
   strings : null,
   sourcePath : "",
   setSourcePath : function(sourcePath) {

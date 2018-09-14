@@ -108,8 +108,8 @@ let start = function(context, i18n, msg, lang=null) {
     let chan = context.getPlayerChannel(msg.author.id)
 
     if (chan !== false) {
-      if (main.removePlayerFromChannel(chan, msg.author.id)) {
-        main.client.channels.get(chan).send("<@" + msg.author.id + "> " + i18n.getString("LEFT_THE_GAME", lang));
+      if (context.removePlayerFromChannel(chan, msg.author.id)) {
+        context.client.channels.get(chan).send("<@" + msg.author.id + "> " + i18n.getString("LEFT_THE_GAME", lang));
       }
     }
 

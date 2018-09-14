@@ -1,4 +1,4 @@
-var token = process.argv[2];
+const token = process.argv[2];
 const Discord = require('discord.js');
 const client = new Discord.Client({autoReconnect : true});
 
@@ -24,6 +24,16 @@ var getPlayerChannel = function(userId) {
 	return false;
 }
 
+var removePlayerFromChannel = function(channel, userId) {
+	if (client.playingChannels[channel].players.indexOf(userId) != -1) {
+		client.playingChannels[channel].players.splice(client.playingChannels[channel].players.indexOf(userId), 1);
+
+		return true;
+	}
+
+	return false;
+}
+
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 
@@ -37,8 +47,9 @@ client.on('message', msg => {
 		msg.channel.send("**Commands** \n" +
 					"Type `!exq help` to display help \n" +
 					"Type `!exq rules` to get the rules of the game \n" +
-					"Type `!exq start` in a channel to start a game \n" +
-					"Type `!exq join` in a channel to join the game \n" +
+					"Type `!exq start` in a channel to start a game (Makes you quit any game you previously joined)\n" +
+					"Type `!exq join` in a channel to join the game (Makes you quit any game you previously joined)\n" +
+					"Type `!exq quit` in a channel to quit the game \n" +
 					"Type `!exq status` in a channel to get the current state of the game \n" +
 					"After joining the game, send `noun1:`, `adj1:`, `verb:`, `noun2:` or `adj2:` followed by a word of your choice in a DM to me to fill out a blank in the sentence"
 			);
@@ -73,17 +84,33 @@ client.on('message', msg => {
 	} else if (msg.content === "!exq join") {
 		if (msg.guild) {
 			if (Object.keys(client.playingChannels).indexOf(msg.channel.id) != -1 && client.playingChannels[msg.channel.id].players.indexOf(msg.author.id) == -1) {
+				let chan = getPlayerChannel(msg.author.id)
+
+				if (chan !== false) {
+					if (removePlayerFromChannel(chan, msg.author.id)) {
+						client.channels.get(chan).send("<@" + msg.author.id + "> left the game.");
+					}
+				}
+
 				client.playingChannels[msg.channel.id].players.push(msg.author.id);
 
 				msg.reply("joined the game.");
 			} else if (Object.keys(client.playingChannels).indexOf(msg.channel.id) == -1) {
+				let chan = getPlayerChannel(msg.author.id)
+
+				if (chan !== false) {
+					if (removePlayerFromChannel(chan, msg.author.id)) {
+						client.channels.get(chan).send("<@" + msg.author.id + "> left the game.");
+					}
+				}
+
 				client.playingChannels[msg.channel.id] = { "players" : [msg.author.id]};
 				client.playingChannels[msg.channel.id].phrase = {
 					"noun1" : "",
 					"adj1" : "",
 					"verb" : "",
 					"noun2" : "",
-					"adj2" : ""
+					"adj2" : "" 
 				};
 				setPlayingOrder(msg.channel.id);
 
@@ -96,8 +123,29 @@ client.on('message', msg => {
 		}
 
 		return;
+	} else if (msg.content === "!exq quit") {
+		let chan = getPlayerChannel(msg.author.id)
+
+		if (chan === msg.channel.id) {
+			if (removePlayerFromChannel(chan, msg.author.id)) {
+				msg.reply(" left the game.");
+
+				return;
+			}
+		}
+		msg.reply("You weren't even playing anyway.");
+
+		return;
 	} else if (msg.content === "!exq start") {
 		if (msg.guild) {
+			let chan = getPlayerChannel(msg.author.id)
+
+			if (chan !== false) {
+				if (removePlayerFromChannel(chan, msg.author.id)) {
+					client.channels.get(chan).send("<@" + msg.author.id + "> left the game.");
+				}
+			}
+
 			msg.reply("started a game.");
 			client.playingChannels[msg.channel.id] = { "players" : [msg.author.id]};
 			client.playingChannels[msg.channel.id].phrase = {
@@ -147,7 +195,7 @@ client.on('message', msg => {
 });
 
 client.login(token);
- 
+
 let i = 0;
 client.setInterval(function() {
 	console.log(i);

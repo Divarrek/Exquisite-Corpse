@@ -16,9 +16,15 @@ Displays the rules of the game in the current channel
 
 `!exq start`
 Starts a game in the current channel
+Makes you quit any game you previously joined
 
 `!exq join`
 Joins the game or starts it if no game is running
+Makes you quit any game you previously joined
+
+
+`!exq quit`
+Quits the game
 
 `!exq status`
 Displays the current status of the game and a list of all players

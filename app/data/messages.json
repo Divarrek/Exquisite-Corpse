@@ -1,0 +1,42 @@
+{
+    "IS_PLAYING": {
+        "en": "is playing.",
+        "br": "'zo o c'hoari.",
+        "fr": "joue."
+    },
+    "NO_GAME_RUNNING" : {
+      "en": "No game is currently running  on this channel.",
+      "br": "N'eus c'hoari ebet er c'hanol-mañ.",
+      "fr": "Aucune partie n'est en cours sur ce canal."
+    },
+    "LEFT_THE_GAME" : {
+      "en": "left the game.",
+      "br": "en deus kuitaet ar c'hoari.",
+      "fr": "a quitté la partie."
+    },
+    "JOINED_THE_GAME" : {
+      "en": "joined the game.",
+      "br": "'zo o c'hoari.",
+      "fr": "a rejoint la partie."
+    },
+    "STARTED_A_GAME" : {
+      "en": "started a game.",
+      "br": "en deus loc'het ur c'hoari.",
+      "fr": "a lancé une partie."
+    },
+    "HEARD_YOU" : {
+      "en": "Yeah, I heard you the first time.",
+      "br": "Ya, klevet am boa ar wech kentañ.",
+      "fr": "Ouais, j'avais entendu la première fois."
+    },
+    "NO_GAME_IN_DM" : {
+      "en": "You cannot create a game in a DM channel.",
+      "br": "N'hallit ket loc'hañ ur c'hoari en ur c'hanol postelerezh brevez.",
+      "fr": "Vous ne pouvez pas lancer une partie dans un canal de messagerie privée."
+    },
+    "DID_NOT_JOIN" : {
+      "en": "You weren't even playing anyway.",
+      "br": "Forzh penaos, ne oac'h ket o c'hoari.",
+      "fr": "De toute façon, vous ne jouiez même pas."
+    }
+}

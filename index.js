@@ -1,7 +1,11 @@
 const token = process.argv[2];
 const Discord = require('discord.js');
+const i18n = require('./app/lang/lang.js');
 const client = new Discord.Client({autoReconnect : true});
 
+i18n.setSourcePath("./app/data/messages.json");
+
+// commands
 var setPlayingOrder = function(channel) {
 	if (1 == 1) {
 
@@ -66,17 +70,17 @@ client.on('message', msg => {
 			}
 
 			for (var i = 0; i < client.playingChannels[msg.channel.id].players.length; i++) {
-				message += "<@" + client.playingChannels[msg.channel.id].players[i] + "> is playing. \n";
+				message += "<@" + client.playingChannels[msg.channel.id].players[i] + "> " + i18n.getString("IS_PLAYING") + " \n";
 			}
 
 			if (message != "") msg.channel.send(message);
 
 			return;
 		} else {
-			msg.channel.send("No game is currently running on this channel.");
+			msg.channel.send(i18n.getString("NO_GAME_RUNNING"));
 		}
 	} else if (msg.content === "!exq rules") {
-		msg.channel.send("**Rules** \n" +
+		msg.channel.send("** Rules ** \n" +
 					""
 			);
 
@@ -88,19 +92,19 @@ client.on('message', msg => {
 
 				if (chan !== false) {
 					if (removePlayerFromChannel(chan, msg.author.id)) {
-						client.channels.get(chan).send("<@" + msg.author.id + "> left the game.");
+						client.channels.get(chan).send("<@" + msg.author.id + "> " + i18n.getString("LEFT_THE_GAME"));
 					}
 				}
 
 				client.playingChannels[msg.channel.id].players.push(msg.author.id);
 
-				msg.reply("joined the game.");
+				msg.reply(i18n.getString("JOINED_THE_GAME"));
 			} else if (Object.keys(client.playingChannels).indexOf(msg.channel.id) == -1) {
 				let chan = getPlayerChannel(msg.author.id)
 
 				if (chan !== false) {
 					if (removePlayerFromChannel(chan, msg.author.id)) {
-						client.channels.get(chan).send("<@" + msg.author.id + "> left the game.");
+						client.channels.get(chan).send("<@" + msg.author.id + "> " + i18n.getString("LEFT_THE_GAME");
 					}
 				}
 
@@ -110,16 +114,16 @@ client.on('message', msg => {
 					"adj1" : "",
 					"verb" : "",
 					"noun2" : "",
-					"adj2" : "" 
+					"adj2" : ""
 				};
 				setPlayingOrder(msg.channel.id);
 
-				msg.reply("started a game.");
+				msg.reply(i18n.getString("STARTED_A_GAME"));
 			} else if (client.playingChannels[msg.channel.id].players.indexOf(msg.author.id) != -1) {
-				msg.reply("Yeah, I heard you the first time, dude.");
+				msg.reply(i18n.getString("HEARD_YOU"));
 			}
 		} else {
-			msg.reply("You cannot join a game in a DM channel.");
+			msg.reply(i18n.getString("NO_GAME_IN_DM"));
 		}
 
 		return;
@@ -128,12 +132,12 @@ client.on('message', msg => {
 
 		if (chan === msg.channel.id) {
 			if (removePlayerFromChannel(chan, msg.author.id)) {
-				msg.reply(" left the game.");
+				msg.reply(i18n.getString("LEFT_THE_GAME"));
 
 				return;
 			}
 		}
-		msg.reply("You weren't even playing anyway.");
+		msg.reply(i18n.getString("DID_NOT_JOIN"));
 
 		return;
 	} else if (msg.content === "!exq start") {
@@ -142,11 +146,11 @@ client.on('message', msg => {
 
 			if (chan !== false) {
 				if (removePlayerFromChannel(chan, msg.author.id)) {
-					client.channels.get(chan).send("<@" + msg.author.id + "> left the game.");
+					client.channels.get(chan).send("<@" + msg.author.id + "> " + i18n.getString("LEFT_THE_GAME"));
 				}
 			}
 
-			msg.reply("started a game.");
+			msg.reply(i18n.getString("STARTED_A_GAME"));
 			client.playingChannels[msg.channel.id] = { "players" : [msg.author.id]};
 			client.playingChannels[msg.channel.id].phrase = {
 				"noun1" : "",
@@ -158,7 +162,7 @@ client.on('message', msg => {
 
 			setPlayingOrder(msg.channel.id);
 		} else {
-			msg.reply("You cannot start a game in a DM channel.");
+			msg.reply(i18n.getString("NO_GAME_IN_DM"));
 		}
 
 		return;

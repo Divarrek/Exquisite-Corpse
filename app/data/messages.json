@@ -38,5 +38,10 @@
       "en": "You weren't even playing anyway.",
       "br": "Forzh penaos, ne oac'h ket o c'hoari.",
       "fr": "De toute façon, vous ne jouiez même pas."
+    },
+    "IS_BLANK" : {
+      "en": "is blank.",
+      "br": "a zo goullo.",
+      "fr": "est vide."
     }
 }

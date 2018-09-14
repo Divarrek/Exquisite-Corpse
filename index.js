@@ -65,7 +65,7 @@ client.on('message', msg => {
 
 			for (var i = 0; i < Object.keys(client.playingChannels[msg.channel.id].phrase).length; i++) {
 				if (client.playingChannels[msg.channel.id].phrase[Object.keys(client.playingChannels[msg.channel.id].phrase)[i]] == "") {
-					message += Object.keys(client.playingChannels[msg.channel.id].phrase)[i] + " is blank. \n";
+					message += Object.keys(client.playingChannels[msg.channel.id].phrase)[i] + " " + i18n.getString("IS_BLANK") + " \n";
 				}
 			}
 
@@ -104,7 +104,7 @@ client.on('message', msg => {
 
 				if (chan !== false) {
 					if (removePlayerFromChannel(chan, msg.author.id)) {
-						client.channels.get(chan).send("<@" + msg.author.id + "> " + i18n.getString("LEFT_THE_GAME");
+						client.channels.get(chan).send("<@" + msg.author.id + "> " + i18n.getString("LEFT_THE_GAME"));
 					}
 				}
 

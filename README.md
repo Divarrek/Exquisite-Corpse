@@ -22,7 +22,6 @@ Makes you quit any game you previously joined
 Joins the game or starts it if no game is running
 Makes you quit any game you previously joined
 
-
 `!exq quit`
 Quits the game
 

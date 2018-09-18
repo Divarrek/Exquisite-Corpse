@@ -28,9 +28,7 @@ module.exports = function(ctx) {
   }
 
   let rules = function(msg, lang=null) {
-    msg.channel.send("** Rules ** \n" +
-        ""
-    );
+    msg.channel.send(i18n.getString("RULES", lang));
 
     return;
   }

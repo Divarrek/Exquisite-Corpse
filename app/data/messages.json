@@ -48,5 +48,10 @@
       "en": "State of the game",
       "br": "Stad ar c'hoari",
       "fr": "État du jeu"
+    },
+    "RULES" : {
+      "en": "**Rules** \n Exquisite corpse is a writing game for three players or more.\nEach turn, every player writes down a word in order to form a sentence.\n Ex.: The blue | dog | eats | the tired | door",
+      "br": "**Reolennoù** \n Ur c'hoari lennegel evit tri c'hoarier d'an nebeutañ eo ar c'helan saourus.\n Bep tro, skrivañ a ra pep hini ar c'hoarierien ur ger evit sevel ur frasenn.\n Da sk.: - Ar c'hi | glas | a zebr | an nor | skuizh",
+      "fr": "**Règles** \n Le cadavre exquis est un jeu littéraire pour trois joueurs et plus. \nA chaque tour, les joueurs écrivents chacun un mot afin de construire une phrase. \n Ex. : - Le chien | bleu | mange | la porte | fatiguée"
     }
 }

@@ -1,3 +1,5 @@
+const Game = require('../game/Game.js');
+
 let help = function(context, i18n, msg, lang=null) {
   msg.channel.send("**Commands** \n" +
 				"Type `!exq help` to display help \n" +
@@ -13,20 +15,10 @@ let help = function(context, i18n, msg, lang=null) {
 }
 
 let status = function(context, i18n, msg, lang=null) {
-  if (Object.keys(context.client.playingChannels).indexOf(msg.channel.id) != -1) {
-    message = "** " + i18n.getString("STATUS", lang) + " ** \n";
+  if (Object.keys(context.client.games).indexOf(msg.channel.id) != -1) {
+    let game = context.client.games[msg.channel.id];
 
-    for (var i = 0; i < Object.keys(context.client.playingChannels[msg.channel.id].phrase).length; i++) {
-      if (context.client.playingChannels[msg.channel.id].phrase[Object.keys(context.client.playingChannels[msg.channel.id].phrase)[i]] == "") {
-        message += Object.keys(context.client.playingChannels[msg.channel.id].phrase)[i] + " " + i18n.getString("IS_BLANK", lang) + " \n";
-      }
-    }
-
-    for (var i = 0; i < context.client.playingChannels[msg.channel.id].players.length; i++) {
-      message += "<@" + context.client.playingChannels[msg.channel.id].players[i] + "> " + i18n.getString("IS_PLAYING", lang) + " \n";
-    }
-
-    if (message != "") msg.channel.send(message);
+    msg.channel.send(game.getStatus(i18n, lang));
 
     return;
   } else {
@@ -44,8 +36,8 @@ let rules = function(context, i18n, msg, lang=null) {
 
 let join = function(context, i18n, msg, lang=null) {
   if (msg.guild) {
-    if (Object.keys(context.client.playingChannels).indexOf(msg.channel.id) != -1 && context.client.playingChannels[msg.channel.id].players.indexOf(msg.author.id) == -1) {
-      let chan = context.getPlayerChannel(msg.author.id)
+    if (Object.keys(context.client.games).indexOf(msg.channel.id) != -1 && context.client.games[msg.channel.id].players.indexOf(msg.author.id) == -1) {
+      let chan = context.getGame(msg.author.id)
 
       if (chan !== false) {
         if (context.removePlayerFromChannel(chan, msg.author.id)) {
@@ -53,11 +45,11 @@ let join = function(context, i18n, msg, lang=null) {
         }
       }
 
-      context.client.playingChannels[msg.channel.id].players.push(msg.author.id);
+      context.client.games[msg.channel.id].join(msg.author.id);
 
       msg.reply(i18n.getString("JOINED_THE_GAME", lang));
-    } else if (Object.keys(context.client.playingChannels).indexOf(msg.channel.id) == -1) {
-      let chan = context.getPlayerChannel(msg.author.id)
+    } else if (Object.keys(context.client.games).indexOf(msg.channel.id) == -1) {
+      let chan = context.getGame(msg.author.id)
 
       if (chan !== false) {
         if (context.removePlayerFromChannel(chan, msg.author.id)) {
@@ -65,18 +57,12 @@ let join = function(context, i18n, msg, lang=null) {
         }
       }
 
-      context.client.playingChannels[msg.channel.id] = { "players" : [msg.author.id]};
-      context.client.playingChannels[msg.channel.id].phrase = {
-        "noun1" : "",
-        "adj1" : "",
-        "verb" : "",
-        "noun2" : "",
-        "adj2" : ""
-      };
+      context.client.games[msg.channel.id] = new Game(chan, msg.author.id, lang);
+
       context.setPlayingOrder(msg.channel.id);
 
       msg.reply(i18n.getString("STARTED_A_GAME", lang));
-    } else if (context.client.playingChannels[msg.channel.id].players.indexOf(msg.author.id) != -1) {
+    } else if (context.client.games[msg.channel.id].players.indexOf(msg.author.id) != -1) {
       msg.reply(i18n.getString("HEARD_YOU", lang));
     }
   } else {
@@ -87,7 +73,7 @@ let join = function(context, i18n, msg, lang=null) {
 }
 
 let quit = function(context, i18n, msg, lang=null) {
-  let chan = context.getPlayerChannel(msg.author.id)
+  let chan = context.getGame(msg.author.id)
 
   if (chan === msg.channel.id) {
     if (context.removePlayerFromChannel(chan, msg.author.id)) {
@@ -103,9 +89,7 @@ let quit = function(context, i18n, msg, lang=null) {
 
 let start = function(context, i18n, msg, lang=null) {
   if (msg.guild) {
-    if (lang !== null) { i18n.defaultLang = lang; }
-
-    let chan = context.getPlayerChannel(msg.author.id)
+    let chan = context.getGame(msg.author.id);
 
     if (chan !== false) {
       if (context.removePlayerFromChannel(chan, msg.author.id)) {
@@ -113,17 +97,11 @@ let start = function(context, i18n, msg, lang=null) {
       }
     }
 
-    msg.reply(i18n.getString("STARTED_A_GAME", lang));
-    context.client.playingChannels[msg.channel.id] = { "players" : [msg.author.id]};
-    context.client.playingChannels[msg.channel.id].phrase = {
-      "noun1" : "",
-      "adj1" : "",
-      "verb" : "",
-      "noun2" : "",
-      "adj2" : ""
-    };
+    context.client.games[msg.channel.id] = new Game(chan, msg.author.id, lang);
 
     context.setPlayingOrder(msg.channel.id);
+
+    msg.reply(i18n.getString("STARTED_A_GAME", lang));
   } else {
     msg.reply(i18n.getString("NO_GAME_IN_DM", lang));
   }

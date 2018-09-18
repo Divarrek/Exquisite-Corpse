@@ -1,15 +1,14 @@
 const token = process.argv[2];
-const Discord = require('discord.js');
 
+const Discord = require('discord.js');
 const client = new Discord.Client({autoReconnect : true});
 
 const i18n = require('./app/lang/lang.js');
 const commands = require('./app/commands/commands.js');
+const Game = require('./app/game/Game.js');
 
 var main = {};
 main.client = client;
-
-i18n.setSourcePath("./app/data/messages.json");
 
 // commands
 main.setPlayingOrder = function(channel) {
@@ -21,13 +20,13 @@ main.setPlayingOrder = function(channel) {
 }
 
 main.getPhrase = function(channel) {
-	return main.client.playingChannels[channel].phrase.noun1+" "+main.client.playingChannels[channel].phrase.adj1+" "+main.client.playingChannels[channel].phrase.verb+" "+main.client.playingChannels[channel].phrase.noun2+" "+main.client.playingChannels[channel].phrase.adj2;
+	return main.client.games[channel].phrase.noun1+" "+main.client.games[channel].phrase.adj1+" "+main.client.games[channel].phrase.verb+" "+main.client.games[channel].phrase.noun2+" "+main.client.games[channel].phrase.adj2;
 }
 
-main.getPlayerChannel = function(userId) {
-	for (var i = 0; i < Object.keys(main.client.playingChannels).length; i++) {
-		if (main.client.playingChannels[Object.keys(main.client.playingChannels)[i]].players.indexOf(userId) != -1) {
-			return Object.keys(main.client.playingChannels)[i];
+main.getGame = function(userId) {
+	for (var i = 0; i < Object.keys(main.client.games).length; i++) {
+		if (main.client.games[Object.keys(main.client.games)[i]].players.indexOf(userId) != -1) {
+			return Object.keys(main.client.games)[i];
 		}
 	}
 
@@ -35,8 +34,8 @@ main.getPlayerChannel = function(userId) {
 }
 
 main.removePlayerFromChannel = function(channel, userId) {
-	if (main.client.playingChannels[channel].players.indexOf(userId) != -1) {
-		main.client.playingChannels[channel].players.splice(main.client.playingChannels[channel].players.indexOf(userId), 1);
+	if (main.client.games[channel].players.indexOf(userId) != -1) {
+		main.client.games[channel].players.splice(main.client.games[channel].players.indexOf(userId), 1);
 
 		return true;
 	}
@@ -47,7 +46,12 @@ main.removePlayerFromChannel = function(channel, userId) {
 main.client.on('ready', () => {
 	console.log(`Logged in as ${main.client.user.tag}!`);
 
-	main.client.playingChannels = {};
+	main.client.games = [];
+	i18n.setSourcePath("./app/data/messages.json");
+});
+
+main.client.on('error', (err) => {
+  console.error(err);
 });
 
 main.client.on('message', msg => {
@@ -69,24 +73,24 @@ main.client.on('message', msg => {
 		}
 	}
 
-	var curChannel = main.getPlayerChannel(msg.author.id);
+	var curChannel = main.getGame(msg.author.id);
 
 	if (curChannel) {
 		if (msg.content.startsWith("noun1:")) {
-			main.client.playingChannels[curChannel].phrase.noun1 = msg.content.replace("noun1:", "");
+			main.client.games[curChannel].phrase.noun1 = msg.content.replace("noun1:", "");
 		} else if (msg.content.startsWith("adj1:")) {
-			main.client.playingChannels[curChannel].phrase.adj1 = msg.content.replace("adj1:", "");
+			main.client.games[curChannel].phrase.adj1 = msg.content.replace("adj1:", "");
 		} else if (msg.content.startsWith("verb:")) {
-			main.client.playingChannels[curChannel].phrase.verb = msg.content.replace("verb:", "");
+			main.client.games[curChannel].phrase.verb = msg.content.replace("verb:", "");
 		} else if (msg.content.startsWith("noun2:")) {
-			main.client.playingChannels[curChannel].phrase.noun2 = msg.content.replace("noun2:", "");
+			main.client.games[curChannel].phrase.noun2 = msg.content.replace("noun2:", "");
 		} else if (msg.content.startsWith("adj2:")) {
-			main.client.playingChannels[curChannel].phrase.adj2 = msg.content.replace("adj2:", "");
+			main.client.games[curChannel].phrase.adj2 = msg.content.replace("adj2:", "");
 		}
 
-		if (main.client.playingChannels[curChannel].phrase.noun1 != "" && main.client.playingChannels[curChannel].phrase.adj1 != "" && main.client.playingChannels[curChannel].phrase.verb != "" && main.client.playingChannels[curChannel].phrase.noun2 != "" && main.client.playingChannels[curChannel].phrase.adj2 != "") {
+		if (main.client.games[curChannel].phrase.noun1 != "" && main.client.games[curChannel].phrase.adj1 != "" && main.client.games[curChannel].phrase.verb != "" && main.client.games[curChannel].phrase.noun2 != "" && main.client.games[curChannel].phrase.adj2 != "") {
 			main.client.channels.get(curChannel).send(main.getPhrase(curChannel));
-			main.client.playingChannels[curChannel].phrase = {
+			main.client.games[curChannel].phrase = {
 				"noun1" : "",
 				"adj1" : "",
 				"verb" : "",

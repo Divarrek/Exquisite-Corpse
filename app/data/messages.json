@@ -5,13 +5,13 @@
         "fr": "joue."
     },
     "NO_GAME_RUNNING" : {
-      "en": "No game is currently running  on this channel.",
+      "en": "No game is currently running on this channel.",
       "br": "N'eus c'hoari ebet er c'hanol-mañ.",
       "fr": "Aucune partie n'est en cours sur ce canal."
     },
     "LEFT_THE_GAME" : {
       "en": "left the game.",
-      "br": "en deus kuitaet ar c'hoari.",
+      "br": "en/he deus kuitaet ar c'hoari.",
       "fr": "a quitté la partie."
     },
     "JOINED_THE_GAME" : {
@@ -21,7 +21,7 @@
     },
     "STARTED_A_GAME" : {
       "en": "started a game.",
-      "br": "en deus loc'het ur c'hoari.",
+      "br": "en/he deus loc'het ur c'hoari.",
       "fr": "a lancé une partie."
     },
     "HEARD_YOU" : {
@@ -31,7 +31,7 @@
     },
     "NO_GAME_IN_DM" : {
       "en": "You cannot create a game in a DM channel.",
-      "br": "N'hallit ket loc'hañ ur c'hoari en ur c'hanol postelerezh brevez.",
+      "br": "N'hallit ket loc'hañ ur c'hoari en ur c'hanol postelerezh prevez.",
       "fr": "Vous ne pouvez pas lancer une partie dans un canal de messagerie privée."
     },
     "DID_NOT_JOIN" : {
@@ -50,8 +50,8 @@
       "fr": "État du jeu"
     },
     "RULES" : {
-      "en": "**Rules** \n Exquisite corpse is a writing game for three players or more.\nEach turn, every player writes down a word in order to form a sentence.\n Ex.: The blue | dog | eats | the tired | door",
-      "br": "**Reolennoù** \n Ur c'hoari lennegel evit tri c'hoarier d'an nebeutañ eo ar c'helan saourus.\n Bep tro, skrivañ a ra pep hini ar c'hoarierien ur ger evit sevel ur frasenn.\n Da sk.: - Ar c'hi | glas | a zebr | an nor | skuizh",
-      "fr": "**Règles** \n Le cadavre exquis est un jeu littéraire pour trois joueurs et plus. \nA chaque tour, les joueurs écrivents chacun un mot afin de construire une phrase. \n Ex. : - Le chien | bleu | mange | la porte | fatiguée"
+      "en": "**Rules**\nExquisite corpse is a writing game for three players or more.\nEach turn, every player writes down a word in order to form a sentence.\nEx.: - The blue | dog | eats | the tired | door",
+      "br": "**Reolennoù**\nUr c'hoari lennegel evit tri c'hoarier d'an nebeutañ eo ar c'helan saourus.\nBep tro, e skriv pep c'hoarier ur ger evit sevel ur frasenn.\nDa sk.: - Ar c'hi | glas | a zebr | an nor | skuizh",
+      "fr": "**Règles**\nLe cadavre exquis est un jeu littéraire pour trois joueurs et plus.\nA chaque tour, les joueurs écrivents chacun un mot afin de construire une phrase. \nEx. : - Le chien | bleu | mange | la porte | fatiguée"
     }
 }
